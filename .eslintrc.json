@@ -1,0 +1,36 @@
+{
+  "root": true,
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "unicorn"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:unicorn/recommended"
+  ],
+  "rules": {
+    "semi": ["error", "never"],
+    "quotes": ["error", "single"],
+    "no-console": "off",
+    "no-unexpected-multiline": "error",
+    "space-before-function-paren": [ "error", {"anonymous": "always", "named": "never", "asyncArrow": "always"}],
+    "arrow-parens": ["error", "as-needed"],
+    "no-return-await": "error",
+    "no-use-before-define": ["error", "nofunc"],
+    "no-useless-concat": "error",
+    "prefer-const": ["warn", {"ignoreReadBeforeAssign": false}],
+    "prefer-spread": "warn",
+    "prefer-rest-params": "warn",
+    "prefer-destructuring": ["warn", {"object": true, "array": false}],
+    "prefer-promise-reject-errors": ["warn", {"allowEmptyReject": true}],
+    "unicorn/prevent-abbreviations": ["error", {"replacements": {"res": false}}]
+  }
+}

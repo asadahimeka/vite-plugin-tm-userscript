@@ -1,0 +1,51 @@
+{
+  "name": "vite-plugin-tm-userscript",
+  "version": "1.0.2",
+  "description": "A vite plugin to build userscripts mainly for Tampermonkey.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "keywords": [
+    "userscript",
+    "userscripts",
+    "tampermonkey",
+    "vite-plugin",
+    "vite"
+  ],
+  "scripts": {
+    "lint": "eslint src --ext .js,.ts --fix",
+    "build": "tsup"
+  },
+  "author": "asadahimeka",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asadahimeka/vite-plugin-tm-userscript.git"
+  },
+  "bugs": {
+    "url": "https://github.com/asadahimeka/vite-plugin-tm-userscript/issues"
+  },
+  "homepage": "https://github.com/asadahimeka/vite-plugin-tm-userscript#readme",
+  "dependencies": {
+    "acorn-walk": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.7",
+    "@typescript-eslint/eslint-plugin": "^5.20.0",
+    "@typescript-eslint/parser": "^5.20.0",
+    "eslint": "^8.13.0",
+    "eslint-plugin-unicorn": "^42.0.0",
+    "tsup": "^5.12.5",
+    "typescript": "^4.6.3",
+    "vite": "^2.9.5"
+  }
+}
