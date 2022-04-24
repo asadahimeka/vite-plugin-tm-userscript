@@ -290,7 +290,7 @@ function generateTmHeader(mode, input, hasCss) {
     const dealMeta = (v) => {
       if (Array.isArray(v))
         return v.map((element) => dealMeta(element));
-      if (typeof v == "boolean")
+      if (typeof v == "boolean" && v === true)
         return `// @${key}`;
       return `// @${key}${spaces}${v}`;
     };
