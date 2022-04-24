@@ -31,7 +31,7 @@ export function generateTmHeader(mode: string, input: TMExternalGlobals, hasCss:
     const spaces = Array.from({ length: maxKeyLength - key.length + 8 }).join(' ')
     const dealMeta: DealMetaFunction = v => {
       if (Array.isArray(v)) return v.map(element => dealMeta(element))
-      if (typeof v == 'boolean') return `// @${key}`
+      if (typeof v == 'boolean' && v === true) return `// @${key}`
       return `// @${key}${spaces}${v}`
     }
     return dealMeta(value)
