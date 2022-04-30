@@ -55,7 +55,11 @@ export function buildRequireCDN(input: TMExternalGlobals) {
   }
   const requireCDNs: string[] = []
   for (const [key, value] of Object.entries(input)) {
-    requireCDNs.push(Array.isArray(value) ? value[1] : buildDefaultCDN(key))
+    if (Array.isArray(value)) {
+      value[1] && requireCDNs.push(value[1])
+      continue
+    }
+    requireCDNs.push(buildDefaultCDN(key))
   }
   return requireCDNs
 }

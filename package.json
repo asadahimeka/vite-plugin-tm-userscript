@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-tm-userscript",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A vite plugin to build userscripts mainly for Tampermonkey.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
