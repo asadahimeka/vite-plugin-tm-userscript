@@ -3,7 +3,7 @@ import type { Merge, Writeable } from 'common/type'
 export const DEV_MODE = 'development'
 export const PROD_MODE = 'production'
 export const GM_ADD_STYLE = 'GM_addStyle'
-export const DEFAULT_NPM_CDN = 'https://cdn.jsdelivr.net/npm'
+export const DEFAULT_NPM_CDN = 'https://unpkg.com'
 export const INTRO_FOR_PLACEHOLDER = 'console.warn("__TEMPLATE_INJECT_CSS_PLACEHOLDER_NOT_WORK__")'
 
 export const grants = [

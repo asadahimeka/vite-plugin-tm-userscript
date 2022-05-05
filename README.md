@@ -1,19 +1,21 @@
 # vite-plugin-tm-userscript
 
-> 修改自 [vite-plugin-tampermonkey](https://www.npmjs.com/package/vite-plugin-tampermonkey)
+English | [中文](https://github.com/asadahimeka/vite-plugin-tm-userscript/blob/master/README-ZH.md)
 
-基于 `vite` 的 Tampermonkey 用户脚本开发构建插件。
+> Modified from [vite-plugin-tampermonkey](https://www.npmjs.com/package/vite-plugin-tampermonkey)
 
-## 特点
+Tampermonkey userscript developing & build plugin based on `vite` .
 
-- 通过单独的配置文件或者 `package.json` 中的 `tmHeader` 字段来配置 Tampermonkey 的 Userscript Header
-- 构建生产时会支持自动分析代码用到的 `grant`
-- 开发模式时默认导入所有 `grant`，并且把所有的 `grant` 方法加入到 `unsafeWindow`
-- 可通过简单配置，把引入的外部包 `require` 化，自动引入 jsdelivr CDN ，详情见下面的插件配置
+## Features
 
-## 使用
+- Configure Tampermonkey's Userscript Header via a separate config file or the `tmHeader` field in `package.json`
+- Automatically add used `grant` when building for production
+- Import all `grant` by default in development mode, and add all `grant` methods to `unsafeWindow`
+- Through simple configuration, the imported external package can be `require` and automatically imported UNPKG CDN, see the plugin configuration below for details
 
-### 安装
+## Usage
+
+### Install
 
 ```bash
 yarn add vite-plugin-tm-userscript -D
@@ -21,7 +23,7 @@ yarn add vite-plugin-tm-userscript -D
 npm install vite-plugin-tm-userscript -D
 ```
 
-### 配置 `vite.config.ts`
+### Configure `vite.config.ts`
 
 ```js
 import { defineConfig } from 'vite'
@@ -37,24 +39,24 @@ export default defineConfig({
 })
 ```
 
-### 配置 Userscript Header
+### Configure Userscript Header
 
-有四种方式来配置 `Userscript Header`, 优先级如下所示
+There are four ways to configure `Userscript Header`, the priority is as follows
 
 1. `header.config.json`
 2. `header.config.js`
 3. `header.config.txt`
-4. `package.json` 中的 `tmHeader` 字段
+4. `tmHeader` field in `package.json`
 
-其中 `header.config.txt` 使用 Tampermonkey 头部注释配置，不会经过处理，直接插入脚本头部作为 Header 使用
+Among them, `header.config.txt` uses Tampermonkey header annotation configuration, will not be processed, directly inserted into the script header
 
-其他三种格式按 json 格式配置，多个属性配置如 `match` 用数组表示，经过处理自动添加 `grant` 与 `require`
+The other three formats are configured in json format, and multiple attribute configurations such as `match` are represented by an array, and `grant` and `require` are automatically added after processing
 
-示例配置见 `example/header.config.js`
+See [`example/header.config.js`](https://github.com/asadahimeka/vite-plugin-tm-userscript/blob/master/example/header.config.js) for example configuration
 
-具体属性配置见 [Tampermonkey 文档](https://www.tampermonkey.net/documentation.php)
+For specific property configuration, see [Tampermonkey Documentation](https://www.tampermonkey.net/documentation.php)
 
-## 插件配置
+## Plugin Configuration
 
 ```ts
 export interface TMPluginOptions {
@@ -66,9 +68,9 @@ export interface TMPluginOptions {
 
 ### `externalGlobals`
 
-配置外部包，比如 `vue`，`axios` 等，减少打包体积，并且会自动声明 `require` ，如下配置：
+Configure external packages, such as `vue`, `axios`, etc., to reduce the package size, and automatically declare `require`
 
-三种配置形式，可自定义 CDN，不配置 CDN 的话默认使用 jsdelivr CDN
+Three configuration forms, CDN can be customized, if CDN is not configured, UNPKG CDN is used by default
 
 ```js
 // 1
@@ -108,26 +110,26 @@ return {
 
 ### `autoGrant`
 
-`boolean` 类型，默认为 `true`
+`boolean` type, defaults to `true`
 
-自动分析代码中使用的 Tampermonkey 的 `grant`，并加入 Userscript Header 声明中
+Automatically analyze the Tampermonkey `grant` used in the code and add it to the Userscript Header declaration
 
 ### `entry`
 
-入口文件，默认为 `src/main.js` 或者 `src/main.ts`
+Entry file, default is `src/main.js` or `src/main.ts`
 
-## 示例
+## Example
 
-见 `example` 文件夹
+See the `example` folder
 
-## vite 配置额外说明
+## Vite Configuration Additional Instructions
 
-生产构建模式将强制配置 `config.build`:
+Production build mode will force the configuration of `config.build`:
 
-- 构建的包名为 `package.json` 的 `name` （**必须填写**）属性的驼峰模式，构建的文件名也与其相关
-- 文件打包格式为 `iife`，不压缩，不分离 `css` 文件
-- 额外配置了 `rollupOptions`，以支持其他功能
+- Camel case of the `name` (**required**) attribute of the package name `package.json` to build, and the file name to build is also related to it
+- The file packaging format is `iife`, no compression, no separation of `css` files
+- Additionally configured `rollupOptions` to support other features
 
-## 禁止 CSP(Content-Security-Policy)
+## Disable CSP(Content-Security-Policy)
 
-在开发模式下，需要通过 `script` 标签注入 `vite` 的脚本，有些网站开启了 `CSP(Content-Security-Policy)`，导致报错，可以安装 `Chrome` 插件 [Disable Content-Security-Policy](https://chrome.google.com/webstore/detail/disable-content-security/ieelmcmcagommplceebfedjlakkhpden) 或者 [Always Disable Content-Security-Policy](https://chrome.google.com/webstore/detail/always-disable-content-se/ffelghdomoehpceihalcnbmnodohkibj)，来禁止 `CSP(Content-Security-Policy)`，**在开发时开启插件即可（其他时间记得关闭以保证网页浏览的安全性）**。
+In development mode, the script of `vite` needs to be injected through the `script` tag. Some websites have enabled `CSP(Content-Security-Policy)`, resulting in an error. You can install the `Chrome` plugin [Disable Content-Security-Policy] (https://chrome.google.com/webstore/detail/disable-content-security/ieelmcmcagommplceebfedjlakkhpden) or [Always Disable Content-Security-Policy](https://chrome.google.com/webstore/detail/always- disable-content-se/ffelghdomoehpceihalcnbmnodohkibj), to disable `CSP(Content-Security-Policy)`, **open the plug-in during development (remember to close it at other times to ensure the security of web browsing)**.

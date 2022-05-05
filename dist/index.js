@@ -48,7 +48,7 @@ module.exports = __toCommonJS(src_exports);
 var DEV_MODE = "development";
 var PROD_MODE = "production";
 var GM_ADD_STYLE = "GM_addStyle";
-var DEFAULT_NPM_CDN = "https://cdn.jsdelivr.net/npm";
+var DEFAULT_NPM_CDN = "https://unpkg.com";
 var INTRO_FOR_PLACEHOLDER = 'console.warn("__TEMPLATE_INJECT_CSS_PLACEHOLDER_NOT_WORK__")';
 var grants = [
   "unsafeWindow",

@@ -12,7 +12,7 @@
 // @run-at            document-body
 // @grant             GM_download
 // @grant             GM_addStyle
-// @require           https://cdn.jsdelivr.net/npm/vue
+// @require           https://unpkg.com/vue
 // @require           https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js
 // ==/UserScript==
 
