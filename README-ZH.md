@@ -11,9 +11,9 @@
 - 通过单独的配置文件或者 `package.json` 中的 `tmHeader` 字段来配置 Tampermonkey 的 Userscript Header
 - 构建生产时支持自动分析代码用到的 `grant`
 - 开发模式时默认导入所有 `grant`，并且把所有的 `grant` 方法加入到 `unsafeWindow`
-- 可通过简单配置，把引入的外部包 `require` 化，自动引入 ~~jsDelivr~~ UNPKG CDN，详情见下面的插件配置
+- 可通过简单配置，把引入的外部包 `require` 化，自动引入 UNPKG CDN，详情见下面的插件配置
 
-> 鉴于最近的网络环境，已将 jsDelivr 换回 UNPKG，建议自行配置可用的 CDN，配置方式见下文 `externalGlobals`
+> 鉴于最近的网络环境，jsDelivr 与 UNPKG 相对来说都比较慢，建议自行配置可用的 CDN，配置方式见下文 `externalGlobals`
 
 <blockquote>
 常用前端 CDN 加速服务：
