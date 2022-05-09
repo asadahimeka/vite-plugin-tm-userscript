@@ -3,7 +3,7 @@ import { GM_ADD_STYLE, grants } from 'common/constant'
 import type { Grant, Grants, TmHeaderConfig } from 'common/constant'
 import type { Plugin } from 'vite'
 
-const grantMap: Record<string, boolean> = {}
+const grantMap: Record<string, boolean> = Object.create(null)
 for (const grant of grants) {
   grantMap[grant] = true
 }

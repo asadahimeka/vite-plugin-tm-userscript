@@ -134,9 +134,11 @@ return {
 
 ## 示例
 
-见 `example` 文件夹
+见 [`example`](https://github.com/asadahimeka/vite-plugin-tm-userscript/tree/master/example) 文件夹
 
-## vite 配置额外说明
+## 说明
+
+### vite 配置额外说明
 
 生产构建模式将强制配置 `config.build`:
 
@@ -144,6 +146,6 @@ return {
 - 文件打包格式为 `iife`，不压缩，不分离 `css` 文件
 - 额外配置了 `rollupOptions`，以支持其他功能
 
-## 禁止 CSP(Content-Security-Policy)
+### 禁止 CSP(Content-Security-Policy)
 
 在开发模式下，需要通过 `script` 标签注入 `vite` 的脚本，有些网站开启了 `CSP(Content-Security-Policy)`，导致报错，可以安装 `Chrome` 插件 [Disable Content-Security-Policy](https://chrome.google.com/webstore/detail/disable-content-security/ieelmcmcagommplceebfedjlakkhpden) 或者 [Always Disable Content-Security-Policy](https://chrome.google.com/webstore/detail/always-disable-content-se/ffelghdomoehpceihalcnbmnodohkibj)，来禁止 `CSP(Content-Security-Policy)`，**在开发时开启插件即可（其他时间记得关闭以保证网页浏览的安全性）**。

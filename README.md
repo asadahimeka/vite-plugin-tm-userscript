@@ -120,9 +120,11 @@ Entry file, default is `src/main.js` or `src/main.ts`
 
 ## Example
 
-See the `example` folder
+See the [`example`](https://github.com/asadahimeka/vite-plugin-tm-userscript/tree/master/example) folder
 
-## Vite Configuration Additional Instructions
+## Notice
+
+### Vite Configuration Additional Instructions
 
 Production build mode will force the configuration of `config.build`:
 
@@ -130,6 +132,6 @@ Production build mode will force the configuration of `config.build`:
 - The file packaging format is `iife`, no compression, no separation of `css` files
 - Additionally configured `rollupOptions` to support other features
 
-## Disable CSP(Content-Security-Policy)
+### Disable CSP(Content-Security-Policy)
 
 In development mode, the script of `vite` needs to be injected through the `script` tag. Some websites have enabled `CSP(Content-Security-Policy)`, resulting in an error. You can install the `Chrome` plugin [Disable Content-Security-Policy] (https://chrome.google.com/webstore/detail/disable-content-security/ieelmcmcagommplceebfedjlakkhpden) or [Always Disable Content-Security-Policy](https://chrome.google.com/webstore/detail/always- disable-content-se/ffelghdomoehpceihalcnbmnodohkibj), to disable `CSP(Content-Security-Policy)`, **open the plug-in during development (remember to close it at other times to ensure the security of web browsing)**.

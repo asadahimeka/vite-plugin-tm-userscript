@@ -42,4 +42,8 @@
   console.log("hello world main.ts: " + hello());
   console.log($__default["default"].fn.jquery);
   $__default["default"].noop();
+  const hasOwnProperty = () => {
+    console.log("for test");
+  };
+  hasOwnProperty();
 })(jQuery);

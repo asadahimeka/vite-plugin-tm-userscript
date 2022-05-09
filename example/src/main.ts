@@ -6,3 +6,8 @@ import $ from 'jquery'
 console.log('hello world main.ts: ' + hello())
 console.log($.fn.jquery)
 $.noop()
+
+const hasOwnProperty = () => {
+  console.log('for test')
+}
+hasOwnProperty()

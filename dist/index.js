@@ -218,7 +218,7 @@ function writeBundleFile(directory, fileName, data) {
 
 // src/lib/grants.ts
 var import_acorn_walk = require("acorn-walk");
-var grantMap = {};
+var grantMap = /* @__PURE__ */ Object.create(null);
 for (const grant of grants) {
   grantMap[grant] = true;
 }

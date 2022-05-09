@@ -199,7 +199,7 @@ function writeBundleFile(directory, fileName, data) {
 
 // src/lib/grants.ts
 import { full as walkFull } from "acorn-walk";
-var grantMap = {};
+var grantMap = /* @__PURE__ */ Object.create(null);
 for (const grant of grants) {
   grantMap[grant] = true;
 }
