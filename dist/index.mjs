@@ -58,8 +58,14 @@ var grants = [
 ];
 var tmHeaderKeys = [
   "name",
+  "name:en",
+  "name:zh",
+  "name:zh-cn",
   "version",
   "description",
+  "description:en",
+  "description:zh",
+  "description:zh-cn",
   "author",
   "namespace",
   "license",
@@ -85,7 +91,8 @@ var tmHeaderKeys = [
   "grant",
   "noframes",
   "unwrap",
-  "nocompat"
+  "nocompat",
+  "antifeature"
 ];
 
 // src/lib/client-code.ts

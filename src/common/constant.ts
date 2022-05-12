@@ -37,8 +37,14 @@ export type Grants = Writeable<typeof grants>
 
 export const tmHeaderKeys = [
   'name',
+  'name:en',
+  'name:zh',
+  'name:zh-cn',
   'version',
   'description',
+  'description:en',
+  'description:zh',
+  'description:zh-cn',
   'author',
   'namespace',
   'license',
@@ -64,10 +70,12 @@ export const tmHeaderKeys = [
   'grant',
   'noframes',
   'unwrap',
-  'nocompat'
+  'nocompat',
+  'antifeature'
 ] as const
 
 type RunAt = 'document-start' | 'document-body' | 'document-end' | 'document-idle' | 'context-menu'
+type AntiFeature = 'ads' | 'tracking' | 'miner'
 
 type TmHeaderKey = typeof tmHeaderKeys[number]
 export type BareTmHeaderConfig = Partial<Record<TmHeaderKey, string | string[]>>
@@ -77,5 +85,6 @@ export type TmHeaderConfig = Merge<BareTmHeaderConfig, {
   unwrap?: boolean;
   grant?: Grant | Grant[];
   'run-at'?: RunAt | RunAt[];
+  antifeature?: AntiFeature | AntiFeature[];
 }>
 export type TmHeaderConfigKeys = Array<keyof TmHeaderConfig>
