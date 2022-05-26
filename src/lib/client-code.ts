@@ -1,7 +1,7 @@
 import type { AddressInfo } from 'node:net'
 import { grants } from 'common/constant'
 
-export function generateClientCode({ address, port }: AddressInfo) {
+export function generateClientCode({ address, port }: AddressInfo, entry?: string) {
   return `
   const url = 'http://${address}:${port}'
 
@@ -32,6 +32,6 @@ export function generateClientCode({ address, port }: AddressInfo) {
   }
 
   createModuleScript('@vite/client')
-  createModuleScript('src/main.ts')
+  createModuleScript('${entry ?? 'src/main.ts'}')
 `
 }

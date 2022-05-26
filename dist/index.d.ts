@@ -23,7 +23,7 @@ interface TMPluginOptions {
     autoGrant?: boolean;
     externalGlobals?: string[] | Record<string, string | string[]>;
 }
-declare function tampermonkeyPlugin(options?: TMPluginOptions): Plugin;
+declare function tampermonkeyPlugin(options?: TMPluginOptions): Plugin[];
 
 declare function defineTmHeader(options: TmHeaderConfig): TmHeaderConfig;
 

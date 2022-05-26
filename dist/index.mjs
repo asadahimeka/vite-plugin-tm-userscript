@@ -96,7 +96,7 @@ var tmHeaderKeys = [
 ];
 
 // src/lib/client-code.ts
-function generateClientCode({ address, port }) {
+function generateClientCode({ address, port }, entry) {
   return `
   const url = 'http://${address}:${port}'
 
@@ -127,7 +127,7 @@ function generateClientCode({ address, port }) {
   }
 
   createModuleScript('@vite/client')
-  createModuleScript('src/main.ts')
+  createModuleScript('${entry != null ? entry : "src/main.ts"}')
 `;
 }
 
@@ -210,39 +210,26 @@ function getDefinedConfig() {
   }
   return readPackageJSON().tmHeader;
 }
-function readBundleFile(directory, fileName) {
-  const distribution = directory || path.resolve(root, "dist");
-  const filePath = path.resolve(distribution, fileName);
-  return fs.readFileSync(filePath, "utf8");
-}
-function writeBundleFile(directory, fileName, data) {
-  const distribution = directory || path.resolve(root, "dist");
-  const filePath = path.resolve(distribution, fileName);
-  fs.writeFileSync(filePath, data);
-}
 
 // src/lib/grants.ts
 import { full as walkFull } from "acorn-walk";
-var grantMap = /* @__PURE__ */ Object.create(null);
-for (const grant of grants) {
-  grantMap[grant] = true;
-}
+var grantsSet = new Set(grants);
 var usedGrants = /* @__PURE__ */ new Set();
 function parseGrant(autoGrant) {
   if (autoGrant === false)
     return {};
   return {
-    name: "tampermonkey-grant",
+    name: "tm-userscript-grant",
     moduleParsed(moduleInfo) {
       if (/\.(ts|js|vue)$/.test(moduleInfo.id) && moduleInfo.ast) {
         walkFull(moduleInfo.ast, (node) => {
           if (node.type === "CallExpression") {
             const calleeName = node.callee.name;
-            if (calleeName && grantMap[calleeName]) {
+            if (calleeName && grantsSet.has(calleeName)) {
               usedGrants.add(calleeName);
             }
           }
-          if (node.type === "Identifier" && grantMap[node.name]) {
+          if (node.type === "Identifier" && grantsSet.has(node.name)) {
             usedGrants.add(node.name);
           }
         });
@@ -286,7 +273,8 @@ function generateTmHeader(mode, input, hasCss) {
   config.require = [...(_c = config.require) != null ? _c : [], ...buildRequireCDN(input)];
   if (mode === DEV_MODE) {
     addUsedGrants(config, true);
-    config.name += "-vite-dev";
+    config.name = "userscript-development";
+    config.match = "*://*/*";
   } else {
     hasCss && addExtraTmGrant(config);
     addUsedGrants(config);
@@ -341,106 +329,112 @@ var getLibraryOptions = (entry) => {
   };
 };
 
-// src/lib/inject.ts
-function injectMetaAndCss(input) {
-  if (process.env.NODE_ENV != PROD_MODE)
-    return {};
-  const allCss = [];
-  return {
-    name: "inject-meta-css",
-    transform(code, id) {
-      if (/\.(c|le|sc)ss$/.test(id)) {
-        allCss.push(code);
-        return { code: "" };
-      }
-    },
-    writeBundle({ dir }, bundle) {
-      for (const [fileName, bundleValue] of Object.entries(bundle)) {
-        let result = readBundleFile(dir, fileName);
-        const hasCss = allCss.length > 0;
-        result = result.replace(INTRO_FOR_PLACEHOLDER, hasCss ? `${GM_ADD_STYLE}(\`
-${allCss.join("\n")}  \`)` : "");
-        if (bundleValue.type === "chunk") {
-          for (const [moduleKey, moduleValue] of Object.entries(bundleValue.modules)) {
-            if (/\.(c|le|sc)ss$/.test(moduleKey) && moduleValue.code) {
-              const csscode = moduleValue.code.replaceAll("'", '"');
-              result = result.replace(csscode, "");
-            }
-          }
-        }
-        result = generateTmHeader(PROD_MODE, input, hasCss) + "\n\n" + result;
-        writeBundleFile(dir, fileName, result);
-      }
-    }
-  };
-}
-
 // src/lib/plugin.ts
-function generateDevelopmentCode(address, input) {
+function generateDevelopmentCode(address, input, entry) {
+  if (!address)
+    return "\u5904\u7406\u5927\u5931\u8D25\u4E86\u55F7...";
   const tmHeader = generateTmHeader(DEV_MODE, input, true);
+  const code = generateClientCode(address, entry);
   return `${tmHeader}
+
 (function () {
-${generateClientCode(address)}
+${code}
 })()`;
 }
 function getAddress(address) {
   return typeof address == "object" ? address : void 0;
 }
-var DEV_TAMPERMONKEY_PATH = "/@tampermonkey-dev.user.js";
-var cyanColor = "\x1B[36m%s\x1B[0m";
+var DEV_TAMPERMONKEY_PATH = "/_development.user.js";
+var showInstallLog = (address) => {
+  const url = `http://${address.address}:${address.port}${DEV_TAMPERMONKEY_PATH}`;
+  setTimeout(() => {
+    console.log("\x1B[36m%s\x1B[0m", `> [TMPlugin] - click link to install userscript: ${url}`);
+  });
+};
 function tampermonkeyPlugin(options = {}) {
   const { entry, externalGlobals, autoGrant } = options;
-  const { transform, writeBundle } = injectMetaAndCss(externalGlobals);
   const { moduleParsed } = parseGrant(autoGrant);
-  return {
-    name: "tm-userscript-builder",
-    moduleParsed,
-    transform,
-    writeBundle,
-    configureServer(server) {
-      return () => {
-        var _a;
-        (_a = server.httpServer) == null ? void 0 : _a.on("listening", () => {
-          var _a2;
-          const address = getAddress((_a2 = server.httpServer) == null ? void 0 : _a2.address());
-          if (address) {
-            setTimeout(() => {
-              console.log(cyanColor, `> [Tampermonkey] - click link to install: http://${address.address}:${address.port}${DEV_TAMPERMONKEY_PATH}`);
-            });
-          }
-        });
-        server.middlewares.use((request, response, next) => {
-          var _a2;
-          if (request.url === DEV_TAMPERMONKEY_PATH) {
+  return [
+    {
+      name: "tm-userscript-builder",
+      moduleParsed,
+      configureServer(server) {
+        return () => {
+          var _a;
+          (_a = server.httpServer) == null ? void 0 : _a.on("listening", () => {
+            var _a2;
             const address = getAddress((_a2 = server.httpServer) == null ? void 0 : _a2.address());
-            response.setHeader("Cache-Control", "no-store");
-            response.write(address ? generateDevelopmentCode(address, externalGlobals) : "\u5904\u7406\u5927\u5931\u8D25\u4E86\u55F7...");
-          }
-          next();
-        });
-      };
-    },
-    config(config) {
-      var _a;
-      if (process.env.NODE_ENV === "development") {
-        let hmr = (_a = config.server) == null ? void 0 : _a.hmr;
-        if (typeof hmr === "boolean" || !hmr)
-          hmr = {};
-        hmr.protocol = "ws";
-        hmr.host = "127.0.0.1";
-        config.server = __spreadProps(__spreadValues({}, config.server), {
-          hmr
-        });
+            address && showInstallLog(address);
+          });
+          server.middlewares.use((request, response, next) => {
+            var _a2;
+            if (request.url === DEV_TAMPERMONKEY_PATH) {
+              const address = getAddress((_a2 = server.httpServer) == null ? void 0 : _a2.address());
+              const developmentCode = generateDevelopmentCode(address, externalGlobals, entry);
+              response.setHeader("Cache-Control", "no-store");
+              response.write(developmentCode);
+            }
+            next();
+          });
+        };
+      },
+      config(config) {
+        var _a;
+        if (process.env.NODE_ENV === "development") {
+          let hmr = (_a = config.server) == null ? void 0 : _a.hmr;
+          if (typeof hmr === "boolean" || !hmr)
+            hmr = {};
+          hmr.protocol = "ws";
+          hmr.host = "127.0.0.1";
+          config.server = __spreadProps(__spreadValues({}, config.server), {
+            hmr
+          });
+        }
+        config.build = {
+          lib: getLibraryOptions(entry),
+          rollupOptions: getRollupOptions(externalGlobals),
+          minify: false,
+          sourcemap: false,
+          cssCodeSplit: false
+        };
       }
-      config.build = {
-        lib: getLibraryOptions(entry),
-        rollupOptions: getRollupOptions(externalGlobals),
-        minify: false,
-        sourcemap: false,
-        cssCodeSplit: false
-      };
+    },
+    {
+      name: "tm-userscript-inject",
+      apply: "build",
+      enforce: "post",
+      generateBundle(_options, bundle) {
+        const bundleKeys = Object.keys(bundle);
+        const cssBundles = bundleKeys.filter((key) => key.endsWith(".css"));
+        const jsBundles = bundleKeys.filter((key) => key.endsWith(".js"));
+        const cssList = [];
+        for (const css of cssBundles) {
+          const chunk = bundle[css];
+          if (chunk.type === "asset" && typeof chunk.source == "string") {
+            delete bundle[css];
+            cssList.push(chunk.source);
+            continue;
+          }
+        }
+        const hadCss = cssList.length > 0;
+        const tmHeader = generateTmHeader(PROD_MODE, externalGlobals, hadCss);
+        for (const js of jsBundles) {
+          const chunk = bundle[js];
+          if (chunk.type === "chunk") {
+            let chunkCode = chunk.code;
+            for (const [moduleKey, moduleValue] of Object.entries(chunk.modules)) {
+              if (/\.(c|le|sc)ss$/.test(moduleKey) && moduleValue.code) {
+                const cssCode = moduleValue.code.replaceAll("'", '"');
+                chunkCode = chunkCode.replace(cssCode, "");
+              }
+            }
+            chunk.code = tmHeader + "\n\n" + chunkCode.replace(INTRO_FOR_PLACEHOLDER, hadCss ? `${GM_ADD_STYLE}(\`
+${cssList.join("\n")}  \`)` : "");
+          }
+        }
+      }
     }
-  };
+  ];
 }
 
 // src/index.ts

@@ -3,27 +3,24 @@ import { GM_ADD_STYLE, grants } from 'common/constant'
 import type { Grant, Grants, TmHeaderConfig } from 'common/constant'
 import type { Plugin } from 'vite'
 
-const grantMap: Record<string, boolean> = Object.create(null)
-for (const grant of grants) {
-  grantMap[grant] = true
-}
+const grantsSet = new Set<Grant>(grants)
 const usedGrants = new Set<Grant>()
 
 export function parseGrant(autoGrant: boolean | undefined): Partial<Plugin> {
   if (autoGrant === false) return {}
   return {
-    name: 'tampermonkey-grant',
+    name: 'tm-userscript-grant',
     moduleParsed(moduleInfo) {
       if (/\.(ts|js|vue)$/.test(moduleInfo.id) && moduleInfo.ast) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         walkFull(moduleInfo.ast, (node: any) => {
           if (node.type === 'CallExpression') {
             const calleeName = node.callee.name
-            if (calleeName && grantMap[calleeName]) {
+            if (calleeName && grantsSet.has(calleeName)) {
               usedGrants.add(calleeName)
             }
           }
-          if (node.type === 'Identifier' && grantMap[node.name]) {
+          if (node.type === 'Identifier' && grantsSet.has(node.name)) {
             usedGrants.add(node.name)
           }
         })

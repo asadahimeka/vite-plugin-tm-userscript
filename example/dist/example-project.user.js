@@ -22,7 +22,6 @@
 #app {
   background-color: beige;
 }
-
 .test {
   font-size: larger;
 }

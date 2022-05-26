@@ -30,7 +30,6 @@
     "prefer-spread": "warn",
     "prefer-rest-params": "warn",
     "prefer-destructuring": ["warn", {"object": true, "array": false}],
-    "prefer-promise-reject-errors": ["warn", {"allowEmptyReject": true}],
-    "unicorn/prevent-abbreviations": ["error", {"replacements": {"res": false}}]
+    "prefer-promise-reject-errors": ["warn", {"allowEmptyReject": true}]
   }
 }
