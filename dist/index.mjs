@@ -97,20 +97,37 @@ var tmHeaderKeys = [
 
 // src/lib/client-code.ts
 function generateClientCode({ address, port }) {
-  return `const url = 'http://${address}:${port}'
+  return `
+  const url = 'http://${address}:${port}'
 
-${grants.map((item) => `unsafeWindow.${item} = ${item}`).join("\n")}
+  const originFetch = unsafeWindow.fetch
+  const ping = '/__vite_ping'
+  unsafeWindow.fetch = function(input, init) {
+    if (input === ping) {
+      input = url + ping
+    }
+    return originFetch(input, init)
+  }
 
-function createModuleScript(path) {
-  const script = document.createElement('script')
-  script.type = 'module'
-  script.src = url + '/' + path
-  document.body.appendChild(script)
-  return script
-}
+  ${grants.map((item) => `unsafeWindow.${item} = ${item}`).join("\n  ")}
 
-createModuleScript('@vite/client')
-createModuleScript('src/main.ts')
+  function createModuleScript(path) {
+    if (typeof GM_addElement == 'function') {
+      return GM_addElement('script', {
+        type: 'module',
+        src: url + '/' + path
+      })
+    } else {
+      const script = document.createElement('script')
+      script.type = 'module'
+      script.src = url + '/' + path
+      document.body.appendChild(script)
+      return script
+    }
+  }
+
+  createModuleScript('@vite/client')
+  createModuleScript('src/main.ts')
 `;
 }
 
@@ -341,7 +358,8 @@ function injectMetaAndCss(input) {
       for (const [fileName, bundleValue] of Object.entries(bundle)) {
         let result = readBundleFile(dir, fileName);
         const hasCss = allCss.length > 0;
-        result = result.replace(INTRO_FOR_PLACEHOLDER, hasCss ? `${GM_ADD_STYLE}(${["`", ...allCss, "`"].join("\n")})` : "");
+        result = result.replace(INTRO_FOR_PLACEHOLDER, hasCss ? `${GM_ADD_STYLE}(\`
+${allCss.join("\n")}  \`)` : "");
         if (bundleValue.type === "chunk") {
           for (const [moduleKey, moduleValue] of Object.entries(bundleValue.modules)) {
             if (/\.(c|le|sc)ss$/.test(moduleKey) && moduleValue.code) {
@@ -361,9 +379,9 @@ function injectMetaAndCss(input) {
 function generateDevelopmentCode(address, input) {
   const tmHeader = generateTmHeader(DEV_MODE, input, true);
   return `${tmHeader}
-  (function () {
-    ${generateClientCode(address)}
-  })()`;
+(function () {
+${generateClientCode(address)}
+})()`;
 }
 function getAddress(address) {
   return typeof address == "object" ? address : void 0;
@@ -391,11 +409,12 @@ function tampermonkeyPlugin(options = {}) {
             });
           }
         });
-        server.middlewares.use((request, res, next) => {
+        server.middlewares.use((request, response, next) => {
           var _a2;
           if (request.url === DEV_TAMPERMONKEY_PATH) {
             const address = getAddress((_a2 = server.httpServer) == null ? void 0 : _a2.address());
-            res.write(address ? generateDevelopmentCode(address, externalGlobals) : "\u5904\u7406\u5927\u5931\u8D25\u4E86\u55F7...");
+            response.setHeader("Cache-Control", "no-store");
+            response.write(address ? generateDevelopmentCode(address, externalGlobals) : "\u5904\u7406\u5927\u5931\u8D25\u4E86\u55F7...");
           }
           next();
         });
@@ -403,14 +422,16 @@ function tampermonkeyPlugin(options = {}) {
     },
     config(config) {
       var _a;
-      let hmr = (_a = config.server) == null ? void 0 : _a.hmr;
-      if (typeof hmr === "boolean" || !hmr)
-        hmr = {};
-      hmr.protocol = "ws";
-      hmr.host = "127.0.0.1";
-      config.server = __spreadProps(__spreadValues({}, config.server), {
-        hmr
-      });
+      if (process.env.NODE_ENV === "development") {
+        let hmr = (_a = config.server) == null ? void 0 : _a.hmr;
+        if (typeof hmr === "boolean" || !hmr)
+          hmr = {};
+        hmr.protocol = "ws";
+        hmr.host = "127.0.0.1";
+        config.server = __spreadProps(__spreadValues({}, config.server), {
+          hmr
+        });
+      }
       config.build = {
         lib: getLibraryOptions(entry),
         rollupOptions: getRollupOptions(externalGlobals),

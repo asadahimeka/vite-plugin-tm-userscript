@@ -17,9 +17,9 @@ export type TMExternalGlobals = TMPluginOptions['externalGlobals']
 function generateDevelopmentCode(address: AddressInfo, input: TMExternalGlobals) {
   const tmHeader = generateTmHeader(DEV_MODE, input, true)
   return `${tmHeader}
-  (function () {
-    ${generateClientCode(address)}
-  })()`
+(function () {
+${generateClientCode(address)}
+})()`
 }
 
 function getAddress(address: string | AddressInfo | null | undefined) {
@@ -48,23 +48,26 @@ export function tampermonkeyPlugin(options: TMPluginOptions = {}): Plugin {
             })
           }
         })
-        server.middlewares.use((request, res, next) => {
+        server.middlewares.use((request, response, next) => {
           if (request.url === DEV_TAMPERMONKEY_PATH) {
             const address = getAddress(server.httpServer?.address())
-            res.write(address ? generateDevelopmentCode(address, externalGlobals) : '\u5904\u7406\u5927\u5931\u8D25\u4E86\u55F7...')
+            response.setHeader('Cache-Control', 'no-store')
+            response.write(address ? generateDevelopmentCode(address, externalGlobals) : '\u5904\u7406\u5927\u5931\u8D25\u4E86\u55F7...')
           }
           next()
         })
       }
     },
     config(config) {
-      let hmr = config.server?.hmr
-      if (typeof hmr === 'boolean' || !hmr) hmr = {}
-      hmr.protocol = 'ws'
-      hmr.host = '127.0.0.1'
-      config.server = {
-        ...config.server,
-        hmr
+      if (process.env.NODE_ENV === 'development' ) {
+        let hmr = config.server?.hmr
+        if (typeof hmr === 'boolean' || !hmr) hmr = {}
+        hmr.protocol = 'ws'
+        hmr.host = '127.0.0.1'
+        config.server = {
+          ...config.server,
+          hmr
+        }
       }
       config.build = {
         lib: getLibraryOptions(entry),

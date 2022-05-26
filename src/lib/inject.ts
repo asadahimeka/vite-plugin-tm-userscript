@@ -22,7 +22,7 @@ export function injectMetaAndCss(input: TMExternalGlobals): Partial<Plugin> {
         result = result.replace(
           INTRO_FOR_PLACEHOLDER,
           hasCss
-            ? `${GM_ADD_STYLE}(${['`', ...allCss, '`'].join('\n')})`
+            ? `${GM_ADD_STYLE}(\`\n${allCss.join('\n')}  \`)`
             : ''
         )
         if (bundleValue.type === 'chunk') {
