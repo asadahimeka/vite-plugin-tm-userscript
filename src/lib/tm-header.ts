@@ -19,8 +19,7 @@ export function generateTmHeader(mode: string, input: TMExternalGlobals, hasCss:
   config.require = [...config.require ?? [], ...buildRequireCDN(input)]
   if (mode === DEV_MODE) {
     addUsedGrants(config, true)
-    config.name = 'userscript-development'
-    config.match = '*://*/*'
+    config.name += '-development'
   } else {
     hasCss && addExtraTmGrant(config)
     addUsedGrants(config)

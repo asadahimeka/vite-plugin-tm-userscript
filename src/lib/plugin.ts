@@ -59,15 +59,13 @@ export function tampermonkeyPlugin(options: TMPluginOptions = {}): Plugin[] {
         }
       },
       config(config) {
-        if (process.env.NODE_ENV === 'development') {
-          let hmr = config.server?.hmr
-          if (typeof hmr === 'boolean' || !hmr) hmr = {}
-          hmr.protocol = 'ws'
-          hmr.host = '127.0.0.1'
-          config.server = {
-            ...config.server,
-            hmr
-          }
+        let hmr = config.server?.hmr
+        if (typeof hmr === 'boolean' || !hmr) hmr = {}
+        hmr.protocol = 'ws'
+        hmr.host = '127.0.0.1'
+        config.server = {
+          ...config.server,
+          hmr
         }
         config.build = {
           lib: getLibraryOptions(entry),

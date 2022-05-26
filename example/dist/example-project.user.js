@@ -22,6 +22,9 @@
 #app {
   background-color: beige;
 }
+body {
+  opacity: 0.1;
+}
 .test {
   font-size: larger;
 }
@@ -41,7 +44,7 @@
   console.log($__default["default"].fn.jquery);
   $__default["default"].noop();
   const hasOwnProperty = () => {
-    console.log("for test");
+    console.log("for test12331313214");
   };
   hasOwnProperty();
 })(jQuery);

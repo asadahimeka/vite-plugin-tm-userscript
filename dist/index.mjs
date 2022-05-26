@@ -273,8 +273,7 @@ function generateTmHeader(mode, input, hasCss) {
   config.require = [...(_c = config.require) != null ? _c : [], ...buildRequireCDN(input)];
   if (mode === DEV_MODE) {
     addUsedGrants(config, true);
-    config.name = "userscript-development";
-    config.match = "*://*/*";
+    config.name += "-development";
   } else {
     hasCss && addExtraTmGrant(config);
     addUsedGrants(config);
@@ -380,16 +379,14 @@ function tampermonkeyPlugin(options = {}) {
       },
       config(config) {
         var _a;
-        if (process.env.NODE_ENV === "development") {
-          let hmr = (_a = config.server) == null ? void 0 : _a.hmr;
-          if (typeof hmr === "boolean" || !hmr)
-            hmr = {};
-          hmr.protocol = "ws";
-          hmr.host = "127.0.0.1";
-          config.server = __spreadProps(__spreadValues({}, config.server), {
-            hmr
-          });
-        }
+        let hmr = (_a = config.server) == null ? void 0 : _a.hmr;
+        if (typeof hmr === "boolean" || !hmr)
+          hmr = {};
+        hmr.protocol = "ws";
+        hmr.host = "127.0.0.1";
+        config.server = __spreadProps(__spreadValues({}, config.server), {
+          hmr
+        });
         config.build = {
           lib: getLibraryOptions(entry),
           rollupOptions: getRollupOptions(externalGlobals),
