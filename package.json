@@ -24,8 +24,7 @@
   "scripts": {
     "build": "tsup",
     "release": "node scripts/release.mjs",
-    "lint": "eslint src --ext .js,.ts --fix",
-    "prerelease": "yarn build"
+    "lint": "eslint src --ext .js,.ts --fix"
   },
   "author": "asadahimeka",
   "license": "ISC",
