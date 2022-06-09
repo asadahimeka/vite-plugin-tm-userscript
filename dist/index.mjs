@@ -270,7 +270,10 @@ function generateTmHeader(mode, input, hasCss) {
     if (value)
       config[key] = value;
   }
-  config.require = [...(_c = config.require) != null ? _c : [], ...buildRequireCDN(input)];
+  config.require = [
+    ...Array.isArray(config.require) ? config.require : [(_c = config.require) != null ? _c : ""],
+    ...buildRequireCDN(input)
+  ];
   if (mode === DEV_MODE) {
     addUsedGrants(config, true);
     config.name += "-development";

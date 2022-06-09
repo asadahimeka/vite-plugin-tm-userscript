@@ -16,7 +16,10 @@ export function generateTmHeader(mode: string, input: TMExternalGlobals, hasCss:
     const value = definedConfig[key] ?? packageJson[key]
     if (value) config[key] = value
   }
-  config.require = [...config.require ?? [], ...buildRequireCDN(input)]
+  config.require = [
+    ...(Array.isArray(config.require) ? config.require : [config.require ?? '']),
+    ...buildRequireCDN(input)
+  ]
   if (mode === DEV_MODE) {
     addUsedGrants(config, true)
     config.name += '-development'

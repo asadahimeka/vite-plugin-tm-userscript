@@ -5,6 +5,9 @@
 // @author            noname
 // @namespace         com.script.Test
 // @license           MIT
+// @require           https://lib.baomitu.com/arrive/2.4.1/arrive.min.js
+// @require           https://unpkg.com/vue
+// @require           https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js
 // @homepage          https://greasyfork.org/scripts/******
 // @supportURL        https://github.com
 // @match             https://abc.com/qwe*
@@ -12,8 +15,6 @@
 // @run-at            document-body
 // @grant             GM_download
 // @grant             GM_addStyle
-// @require           https://unpkg.com/vue
-// @require           https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js
 // ==/UserScript==
 
 (function($) {
@@ -21,9 +22,6 @@
   GM_addStyle(`
 #app {
   background-color: beige;
-}
-body {
-  opacity: 0.1;
 }
 .test {
   font-size: larger;
@@ -44,7 +42,7 @@ body {
   console.log($__default["default"].fn.jquery);
   $__default["default"].noop();
   const hasOwnProperty = () => {
-    console.log("for test12331313214");
+    console.log("for test");
   };
   hasOwnProperty();
 })(jQuery);
