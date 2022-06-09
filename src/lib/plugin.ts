@@ -101,7 +101,7 @@ export function tampermonkeyPlugin(options: TMPluginOptions = {}): Plugin[] {
             let chunkCode = chunk.code
             for (const [moduleKey, moduleValue] of Object.entries(chunk.modules)) {
               if (/\.(c|le|sc)ss$/.test(moduleKey) && moduleValue.code) {
-                const cssCode = moduleValue.code.replaceAll('\'', '"')
+                const cssCode = moduleValue.code.replaceAll('\'', '"').replaceAll('#__PURE__', '@__PURE__')
                 chunkCode = chunkCode.replace(cssCode, '')
               }
             }
