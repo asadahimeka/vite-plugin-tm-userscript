@@ -22,7 +22,7 @@ export function generateTmHeader(mode: string, input: TMExternalGlobals, hasCss:
   ].filter(Boolean)
   if (mode === DEV_MODE) {
     addUsedGrants(config, true)
-    config.name += '-development'
+    config.name = '[ Dev ] - ' + config.name
   } else {
     hasCss && addExtraTmGrant(config)
     addUsedGrants(config)

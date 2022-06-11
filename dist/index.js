@@ -295,7 +295,7 @@ function generateTmHeader(mode, input, hasCss) {
   ].filter(Boolean);
   if (mode === DEV_MODE) {
     addUsedGrants(config, true);
-    config.name += "-development";
+    config.name = "[ Dev ] - " + config.name;
   } else {
     hasCss && addExtraTmGrant(config);
     addUsedGrants(config);
