@@ -5,9 +5,6 @@
 // @author            noname
 // @namespace         com.script.Test
 // @license           MIT
-// @require           https://lib.baomitu.com/arrive/2.4.1/arrive.min.js
-// @require           https://unpkg.com/vue
-// @require           https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js
 // @homepage          https://greasyfork.org/scripts/******
 // @supportURL        https://github.com
 // @match             https://abc.com/qwe*
@@ -15,6 +12,8 @@
 // @run-at            document-body
 // @grant             GM_download
 // @grant             GM_addStyle
+// @require           https://unpkg.com/vue
+// @require           https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js
 // ==/UserScript==
 
 (function($) {

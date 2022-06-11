@@ -16,6 +16,5 @@ module.exports = defineTmHeader({
   grant: [
     'GM_download'
   ],
-  'require': 'https://lib.baomitu.com/arrive/2.4.1/arrive.min.js',
   'run-at': 'document-body'
 })
