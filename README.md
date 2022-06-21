@@ -1,5 +1,9 @@
 # vite-plugin-tm-userscript
 
+![](https://img.shields.io/github/package-json/v/asadahimeka/vite-plugin-tm-userscript)
+![](https://img.shields.io/github/package-json/dependency-version/asadahimeka/vite-plugin-tm-userscript/dev/tsup)
+![](https://img.shields.io/github/package-json/dependency-version/asadahimeka/vite-plugin-tm-userscript/dev/typescript)
+
 English | [中文](https://github.com/asadahimeka/vite-plugin-tm-userscript/blob/master/README-ZH.md)
 
 > Modified from [vite-plugin-tampermonkey](https://www.npmjs.com/package/vite-plugin-tampermonkey)
