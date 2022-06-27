@@ -6,9 +6,9 @@
 
 中文 | [English](https://github.com/asadahimeka/vite-plugin-tm-userscript/blob/master/README.md)
 
-> 修改自 [vite-plugin-tampermonkey](https://www.npmjs.com/package/vite-plugin-tampermonkey)
+基于 `vite` 的 Tampermonkey 用户脚本开发构建插件
 
-基于 `vite` 的 Tampermonkey 用户脚本开发构建插件。
+修改自 [vite-plugin-tampermonkey](https://www.npmjs.com/package/vite-plugin-tampermonkey)
 
 ## 特点
 
