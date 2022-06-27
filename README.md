@@ -6,9 +6,9 @@
 
 English | [中文](https://github.com/asadahimeka/vite-plugin-tm-userscript/blob/master/README-ZH.md)
 
-> Modified from [vite-plugin-tampermonkey](https://www.npmjs.com/package/vite-plugin-tampermonkey)
+Tampermonkey userscript developing & build plugin based on `vite`
 
-Tampermonkey userscript developing & build plugin based on `vite` .
+Modified from [vite-plugin-tampermonkey](https://www.npmjs.com/package/vite-plugin-tampermonkey)
 
 ## Features
 
