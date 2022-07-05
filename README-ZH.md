@@ -6,9 +6,9 @@
 
 中文 | [English](https://github.com/asadahimeka/vite-plugin-tm-userscript/blob/master/README.md)
 
-基于 `vite` 的 Tampermonkey 用户脚本开发构建插件
+基于 `vite` 的 Tampermonkey 用户脚本开发构建插件。
 
-修改自 [vite-plugin-tampermonkey](https://www.npmjs.com/package/vite-plugin-tampermonkey)
+修改自 [vite-plugin-tampermonkey](https://www.npmjs.com/package/vite-plugin-tampermonkey)。
 
 ## 特点
 
@@ -153,3 +153,16 @@ return {
 ### 禁止 CSP(Content-Security-Policy)
 
 在开发模式下，需要通过 `script` 标签注入 `vite` 的脚本，有些网站开启了 `CSP(Content-Security-Policy)`，导致报错，可以安装 `Chrome` 插件 [Disable Content-Security-Policy](https://chrome.google.com/webstore/detail/disable-content-security/ieelmcmcagommplceebfedjlakkhpden) 或者 [Always Disable Content-Security-Policy](https://chrome.google.com/webstore/detail/always-disable-content-se/ffelghdomoehpceihalcnbmnodohkibj)，来禁止 `CSP(Content-Security-Policy)`，**在开发时开启插件即可（其他时间记得关闭以保证网页浏览的安全性）**。
+
+也可以打开 Tampermonkey 设置 `extension://iikmkjmpaadaobahmlepeloendndfphd/options.html#nav=settings`，在 `安全` 项下把 `如果站点有内容安全策略（CSP）则向其策略:` 改为 `全部移除（可能不安全）`。
+
+![image](https://user-images.githubusercontent.com/31837214/177236988-56a9cb86-a8d7-4320-9f47-b10be9e64582.png)
+
+
+## 相关项目
+
+[gorilla](https://github.com/apsking/gorilla)
+
+[vite-plugin-tampermonkey](https://github.com/Thinker-ljn/vite-plugin-tampermonkey)
+
+[vite-plugin-monkey](https://github.com/lisonge/vite-plugin-monkey)
