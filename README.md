@@ -6,9 +6,9 @@
 
 English | [中文](https://github.com/asadahimeka/vite-plugin-tm-userscript/blob/master/README-ZH.md)
 
-Tampermonkey userscript developing & build plugin based on `vite`
+Tampermonkey userscript developing & build plugin based on `vite`.
 
-Modified from [vite-plugin-tampermonkey](https://www.npmjs.com/package/vite-plugin-tampermonkey)
+Modified from [vite-plugin-tampermonkey](https://www.npmjs.com/package/vite-plugin-tampermonkey).
 
 ## Features
 
@@ -139,3 +139,13 @@ Production build mode will force the configuration of `config.build`:
 ### Disable CSP(Content-Security-Policy)
 
 In development mode, the script of `vite` needs to be injected through the `script` tag. Some websites have enabled `CSP(Content-Security-Policy)`, resulting in an error. You can install the `Chrome` plugin [Disable Content-Security-Policy] (https://chrome.google.com/webstore/detail/disable-content-security/ieelmcmcagommplceebfedjlakkhpden) or [Always Disable Content-Security-Policy](https://chrome.google.com/webstore/detail/always- disable-content-se/ffelghdomoehpceihalcnbmnodohkibj), to disable `CSP(Content-Security-Policy)`, **open the plug-in during development (remember to close it at other times to ensure the security of web browsing)**.
+
+Also, you can change Tampermonkey options(open `extension://iikmkjmpaadaobahmlepeloendndfphd/options.html#nav=settings`) at `Security`, set `Modify existing content security policy (CSP) headers` to `Remove entirely (possibly unsecure)`.
+
+## Related
+
+[gorilla](https://github.com/apsking/gorilla)
+
+[vite-plugin-tampermonkey](https://github.com/Thinker-ljn/vite-plugin-tampermonkey)
+
+[vite-plugin-monkey](https://github.com/lisonge/vite-plugin-monkey)
