@@ -48,6 +48,7 @@ export const tmHeaderKeys = [
   'author',
   'namespace',
   'license',
+  'match',
   'include',
   'require',
   'homepage',
@@ -62,7 +63,10 @@ export const tmHeaderKeys = [
   'updateURL',
   'downloadURL',
   'supportURL',
-  'match',
+  'contributionURL',
+  'contributionAmount',
+  'compatible',
+  'incompatible',
   'exclude',
   'resource',
   'connect',
@@ -75,7 +79,7 @@ export const tmHeaderKeys = [
 ] as const
 
 type RunAt = 'document-start' | 'document-body' | 'document-end' | 'document-idle' | 'context-menu'
-type AntiFeature = 'ads' | 'tracking' | 'miner'
+type AntiFeature = 'ads' | 'tracking' | 'miner' | 'membership' | 'payment' | 'referral-link'
 
 type TmHeaderKey = typeof tmHeaderKeys[number]
 export type BareTmHeaderConfig = Partial<Record<TmHeaderKey, string | string[]>>

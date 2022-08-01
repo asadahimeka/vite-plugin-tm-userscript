@@ -1,6 +1,7 @@
 # vite-plugin-tm-userscript
 
 ![](https://img.shields.io/github/package-json/v/asadahimeka/vite-plugin-tm-userscript)
+![](https://img.shields.io/badge/license-MIT-green)
 ![](https://img.shields.io/github/package-json/dependency-version/asadahimeka/vite-plugin-tm-userscript/dev/tsup)
 ![](https://img.shields.io/github/package-json/dependency-version/asadahimeka/vite-plugin-tm-userscript/dev/typescript)
 
