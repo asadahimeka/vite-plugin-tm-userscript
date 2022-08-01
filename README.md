@@ -32,12 +32,12 @@ npm install vite-plugin-tm-userscript -D
 
 ```js
 import { defineConfig } from 'vite'
-import TMPlugin from 'vite-plugin-tm-userscript'
+import Userscript from 'vite-plugin-tm-userscript'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    TMPlugin({
+    Userscript({
       externalGlobals: ['vue']
     })
   ]
@@ -46,16 +46,17 @@ export default defineConfig({
 
 ### Configure Userscript Header
 
-There are four ways to configure `Userscript Header`, the priority is as follows
+There are five ways to configure `Userscript Header`, the priority is as follows
 
-1. `header.config.json`
-2. `header.config.js`
-3. `header.config.txt`
-4. `tmHeader` field in `package.json`
+1. Plugin option `headers`
+2. `header.config.json`
+3. `header.config.js`
+4. `header.config.txt`
+5. `tmHeader` field in `package.json`
 
 Among them, `header.config.txt` uses Tampermonkey header annotation configuration, will not be processed, directly inserted into the script header
 
-The other three formats are configured in json format, and multiple attribute configurations such as `match` are represented by an array, and `grant` and `require` are automatically added after processing
+The other four formats are configured in json format, and multiple attribute configurations such as `match` are represented by an array, and `grant` and `require` are automatically added after processing
 
 See [`example/header.config.js`](https://github.com/asadahimeka/vite-plugin-tm-userscript/blob/master/example/header.config.js) for example configuration
 
@@ -67,6 +68,7 @@ For specific property configuration, see [Tampermonkey Documentation](https://ww
 export interface TMPluginOptions {
   entry?: string;
   autoGrant?: boolean;
+  headers?: TmHeaderConfig;
   externalGlobals?: string[] | Record<string, string | string[]>;
 }
 ```
@@ -79,19 +81,19 @@ Three configuration forms, CDN can be customized, if CDN is not configured, UNPK
 
 ```js
 // 1
-TMPlugin({
+Userscript({
   externalGlobals: ['jquery']
 })
 
 // 2
-TMPlugin({
+Userscript({
   externalGlobals: {
     'jquery': 'jQuery'
   }
 })
 
 // 3
-TMPlugin({
+Userscript({
   externalGlobals: {
     'jquery': ['jQuery', 'https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js']
   }
@@ -143,7 +145,7 @@ In development mode, the script of `vite` needs to be injected through the `scri
 
 Also, you can change Tampermonkey options(open `extension://iikmkjmpaadaobahmlepeloendndfphd/options.html#nav=settings`) at `Security`, set `Modify existing content security policy (CSP) headers` to `Remove entirely (possibly unsecure)`.
 
-## Related
+## Alternatives
 
 [gorilla](https://github.com/apsking/gorilla)
 

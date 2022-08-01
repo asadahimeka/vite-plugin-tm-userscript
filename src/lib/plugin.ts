@@ -2,22 +2,23 @@ import { generateClientCode } from './client-code'
 import { generateTmHeader } from './tm-header'
 import { parseGrant } from './grants'
 import { getLibraryOptions, getRollupOptions } from './build-options'
-import { DEV_MODE, GM_ADD_STYLE, INTRO_FOR_PLACEHOLDER, PROD_MODE } from 'common/constant'
+import { DEV_MODE, GM_ADD_STYLE, INTRO_FOR_PLACEHOLDER, PROD_MODE, TmHeaderConfig } from 'common/constant'
 import type { Plugin } from 'vite'
 import type { AddressInfo } from 'node:net'
 
 export interface TMPluginOptions {
   entry?: string;
   autoGrant?: boolean;
+  headers?: TmHeaderConfig;
   externalGlobals?: string[] | Record<string, string | string[]>;
 }
 export type TMExternalGlobals = TMPluginOptions['externalGlobals']
 
 type Address = AddressInfo | null | undefined
 
-function generateDevelopmentCode(address: Address, input: TMExternalGlobals, entry?: string) {
+function generateDevelopmentCode(address: Address, input: TMExternalGlobals, entry?: string, headers?: TmHeaderConfig) {
   if (!address) return '\u5904\u7406\u5927\u5931\u8D25\u4E86\u55F7...'
-  const tmHeader = generateTmHeader(DEV_MODE, input, true)
+  const tmHeader = generateTmHeader(DEV_MODE, input, true, headers)
   const code = generateClientCode(address, entry)
   return `${tmHeader}\n\n(function () {\n${code}\n})()`
 }
@@ -35,7 +36,7 @@ const showInstallLog = (address: AddressInfo) => {
 }
 
 export function tampermonkeyPlugin(options: TMPluginOptions = {}): Plugin[] {
-  const { entry, externalGlobals, autoGrant } = options
+  const { entry, externalGlobals, autoGrant, headers } = options
   const { moduleParsed } = parseGrant(autoGrant)
   return [
     {
@@ -50,7 +51,7 @@ export function tampermonkeyPlugin(options: TMPluginOptions = {}): Plugin[] {
           server.middlewares.use((request, response, next) => {
             if (request.url === DEV_TAMPERMONKEY_PATH) {
               const address = getAddress(server.httpServer?.address())
-              const developmentCode = generateDevelopmentCode(address, externalGlobals, entry)
+              const developmentCode = generateDevelopmentCode(address, externalGlobals, entry, headers)
               response.setHeader('Cache-Control', 'no-store')
               response.write(developmentCode)
             }
@@ -94,7 +95,7 @@ export function tampermonkeyPlugin(options: TMPluginOptions = {}): Plugin[] {
           }
         }
         const hadCss = cssList.length > 0
-        const tmHeader = generateTmHeader(PROD_MODE, externalGlobals, hadCss)
+        const tmHeader = generateTmHeader(PROD_MODE, externalGlobals, hadCss, headers)
         for (const js of jsBundles) {
           const chunk = bundle[js]
           if (chunk.type === 'chunk') {

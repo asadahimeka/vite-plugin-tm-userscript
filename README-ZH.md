@@ -20,17 +20,15 @@
 
 > 鉴于最近的网络环境，jsDelivr 与 UNPKG 相对来说都比较慢，建议自行配置可用的 CDN，配置方式见下文 `externalGlobals`
 
-<blockquote>
-常用前端 CDN 加速服务：
-
-https://www.bootcdn.cn
-
-https://cdn.baomitu.com
-
-https://staticfile.org
-
-http://cdn.bytedance.com
-</blockquote>
+> 常用前端 CDN 加速服务：
+>
+> https://www.bootcdn.cn
+>
+> https://cdn.baomitu.com
+>
+> https://staticfile.org
+>
+> http://cdn.bytedance.com
 
 ## 使用
 
@@ -46,12 +44,12 @@ npm install vite-plugin-tm-userscript -D
 
 ```js
 import { defineConfig } from 'vite'
-import TMPlugin from 'vite-plugin-tm-userscript'
+import Userscript from 'vite-plugin-tm-userscript'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    TMPlugin({
+    Userscript({
       externalGlobals: ['vue']
     })
   ]
@@ -60,16 +58,17 @@ export default defineConfig({
 
 ### 配置 Userscript Header
 
-有四种方式来配置 `Userscript Header`, 优先级如下所示
+有几种方式来配置 `Userscript Header`, 优先级如下所示
 
-1. `header.config.json`
-2. `header.config.js`
-3. `header.config.txt`
-4. `package.json` 中的 `tmHeader` 字段
+1. 插件的 `headers` 选项
+2. `header.config.json`
+3. `header.config.js`
+4. `header.config.txt`
+5. `package.json` 中的 `tmHeader` 字段
 
 其中 `header.config.txt` 使用 Tampermonkey 头部注释配置，不会经过处理，直接插入脚本头部作为 Header 使用
 
-其他三种格式按 json 格式配置，多个属性配置如 `match` 用数组表示，经过处理自动添加 `grant` 与 `require`
+其他几种格式按 json 格式配置，多个属性配置如 `match` 用数组表示，经过处理自动添加 `grant` 与 `require`
 
 示例配置见 [`example/header.config.js`](https://github.com/asadahimeka/vite-plugin-tm-userscript/blob/master/example/header.config.js)
 
@@ -81,6 +80,7 @@ export default defineConfig({
 export interface TMPluginOptions {
   entry?: string;
   autoGrant?: boolean;
+  headers?: TmHeaderConfig;
   externalGlobals?: string[] | Record<string, string | string[]>;
 }
 ```
@@ -93,25 +93,25 @@ export interface TMPluginOptions {
 
 ```js
 // 1
-TMPlugin({
+Userscript({
   externalGlobals: ['jquery']
 })
 
 // 2
-TMPlugin({
+Userscript({
   externalGlobals: {
     'jquery': 'jQuery'
   }
 })
 
 // 3
-TMPlugin({
+Userscript({
   externalGlobals: {
     'jquery': ['jQuery', 'https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js']
   }
 })
 
-// =>
+// 转化为 =>
 
 return {
   rollupOptions: {
@@ -160,7 +160,7 @@ return {
 ![image](https://user-images.githubusercontent.com/31837214/177236988-56a9cb86-a8d7-4320-9f47-b10be9e64582.png)
 
 
-## 相关项目
+## 替代项目
 
 [gorilla](https://github.com/apsking/gorilla)
 

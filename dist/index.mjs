@@ -69,6 +69,7 @@ var tmHeaderKeys = [
   "author",
   "namespace",
   "license",
+  "match",
   "include",
   "require",
   "homepage",
@@ -83,7 +84,10 @@ var tmHeaderKeys = [
   "updateURL",
   "downloadURL",
   "supportURL",
-  "match",
+  "contributionURL",
+  "contributionAmount",
+  "compatible",
+  "incompatible",
   "exclude",
   "resource",
   "connect",
@@ -258,9 +262,9 @@ function addExtraTmGrant(tmConfig) {
 }
 
 // src/lib/tm-header.ts
-function generateTmHeader(mode, input, hasCss) {
+function generateTmHeader(mode, input, hasCss, headers) {
   var _a, _b, _c;
-  const definedConfig = (_a = getDefinedConfig()) != null ? _a : {};
+  const definedConfig = (_a = headers != null ? headers : getDefinedConfig()) != null ? _a : {};
   if (typeof definedConfig == "string")
     return definedConfig;
   const packageJson = readPackageJSON();
@@ -332,10 +336,10 @@ var getLibraryOptions = (entry) => {
 };
 
 // src/lib/plugin.ts
-function generateDevelopmentCode(address, input, entry) {
+function generateDevelopmentCode(address, input, entry, headers) {
   if (!address)
     return "\u5904\u7406\u5927\u5931\u8D25\u4E86\u55F7...";
-  const tmHeader = generateTmHeader(DEV_MODE, input, true);
+  const tmHeader = generateTmHeader(DEV_MODE, input, true, headers);
   const code = generateClientCode(address, entry);
   return `${tmHeader}
 
@@ -354,7 +358,7 @@ var showInstallLog = (address) => {
   });
 };
 function tampermonkeyPlugin(options = {}) {
-  const { entry, externalGlobals, autoGrant } = options;
+  const { entry, externalGlobals, autoGrant, headers } = options;
   const { moduleParsed } = parseGrant(autoGrant);
   return [
     {
@@ -372,7 +376,7 @@ function tampermonkeyPlugin(options = {}) {
             var _a2;
             if (request.url === DEV_TAMPERMONKEY_PATH) {
               const address = getAddress((_a2 = server.httpServer) == null ? void 0 : _a2.address());
-              const developmentCode = generateDevelopmentCode(address, externalGlobals, entry);
+              const developmentCode = generateDevelopmentCode(address, externalGlobals, entry, headers);
               response.setHeader("Cache-Control", "no-store");
               response.write(developmentCode);
             }
@@ -417,7 +421,7 @@ function tampermonkeyPlugin(options = {}) {
           }
         }
         const hadCss = cssList.length > 0;
-        const tmHeader = generateTmHeader(PROD_MODE, externalGlobals, hadCss);
+        const tmHeader = generateTmHeader(PROD_MODE, externalGlobals, hadCss, headers);
         for (const js of jsBundles) {
           const chunk = bundle[js];
           if (chunk.type === "chunk") {

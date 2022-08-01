@@ -7,8 +7,8 @@ import type { TMExternalGlobals } from './plugin'
 
 type DealMetaFunction = (v: Nested<string>) => string | Nested<string>[]
 
-export function generateTmHeader(mode: string, input: TMExternalGlobals, hasCss: boolean) {
-  const definedConfig = getDefinedConfig() ?? {}
+export function generateTmHeader(mode: string, input: TMExternalGlobals, hasCss: boolean, headers?: TmHeaderConfig) {
+  const definedConfig = headers ?? getDefinedConfig() ?? {}
   if (typeof definedConfig == 'string') return definedConfig
   const packageJson = readPackageJSON()
   const config: TmHeaderConfig = {}

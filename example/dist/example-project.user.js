@@ -5,10 +5,10 @@
 // @author            noname
 // @namespace         com.script.Test
 // @license           MIT
-// @homepage          https://greasyfork.org/scripts/******
-// @supportURL        https://github.com
 // @match             https://abc.com/qwe*
 // @match             https://asd.com/zxc*
+// @homepage          https://greasyfork.org/scripts/******
+// @supportURL        https://github.com
 // @run-at            document-body
 // @grant             GM_download
 // @grant             GM_addStyle
@@ -29,17 +29,15 @@
   color: #000;
 }
   `);
-  function _interopDefaultLegacy(e) {
-    return e && typeof e === "object" && "default" in e ? e : { "default": e };
-  }
-  var $__default = /* @__PURE__ */ _interopDefaultLegacy($);
+  const _interopDefaultLegacy = (e) => e && typeof e === "object" && "default" in e ? e : { default: e };
+  const $__default = /* @__PURE__ */ _interopDefaultLegacy($);
 
 
   console.log("hello");
   const hello = () => "hello";
   console.log("hello world main.ts: " + hello());
-  console.log($__default["default"].fn.jquery);
-  $__default["default"].noop();
+  console.log($__default.default.fn.jquery);
+  $__default.default.noop();
   const hasOwnProperty = () => {
     console.log("for test");
   };
