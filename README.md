@@ -7,9 +7,9 @@
 
 English | [中文](https://github.com/asadahimeka/vite-plugin-tm-userscript/blob/master/README-ZH.md)
 
-Tampermonkey userscript developing & build plugin based on `vite`.
+> Recommended to use [vite-plugin-monkey](https://github.com/lisonge/vite-plugin-monkey)
 
-Modified from [vite-plugin-tampermonkey](https://www.npmjs.com/package/vite-plugin-tampermonkey).
+Tampermonkey userscript developing & build plugin based on `vite`.
 
 ## Features
 
@@ -152,3 +152,9 @@ Also, you can change Tampermonkey options(open `extension://iikmkjmpaadaobahmlep
 [vite-plugin-tampermonkey](https://github.com/Thinker-ljn/vite-plugin-tampermonkey)
 
 [vite-plugin-monkey](https://github.com/lisonge/vite-plugin-monkey)
+
+## License
+
+Forked from [vite-plugin-tampermonkey](https://www.npmjs.com/package/vite-plugin-tampermonkey).
+
+Licensed under the MIT license.
