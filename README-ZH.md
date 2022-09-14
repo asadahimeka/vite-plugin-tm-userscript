@@ -7,9 +7,9 @@
 
 中文 | [English](https://github.com/asadahimeka/vite-plugin-tm-userscript/blob/master/README.md)
 
-基于 `vite` 的 Tampermonkey 用户脚本开发构建插件。
+> 建议使用功能更加丰富的 [vite-plugin-monkey](https://github.com/lisonge/vite-plugin-monkey)
 
-修改自 [vite-plugin-tampermonkey](https://www.npmjs.com/package/vite-plugin-tampermonkey)。
+基于 `vite` 的 Tampermonkey 用户脚本开发构建插件。
 
 ## 特点
 
@@ -167,3 +167,10 @@ return {
 [vite-plugin-tampermonkey](https://github.com/Thinker-ljn/vite-plugin-tampermonkey)
 
 [vite-plugin-monkey](https://github.com/lisonge/vite-plugin-monkey)
+
+
+## License
+
+Forked from [vite-plugin-tampermonkey](https://www.npmjs.com/package/vite-plugin-tampermonkey).
+
+Licensed under the MIT license.
