@@ -75,6 +75,38 @@ export interface TMPluginOptions {
 }
 ```
 
+### `headers`
+
+See [Configure Userscript Header](#configure-userscript-header)
+
+For example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+import Userscript from 'vite-plugin-tm-userscript'
+
+export default defineConfig({
+  plugins: [
+    Userscript({
+      entry: 'main.js',
+      headers: {
+        name: 'Test',
+        namespace: 'https://www.nanoka.top',
+        author: 'asadahimeka',
+        description: 'No description',
+        source: 'https://github.com/asadahimeka/userscripts',
+        supportURL: 'https://github.com/asadahimeka/userscripts/issues',
+        license: 'MIT',
+        match: 'https://test.com/*',
+        require: 'https://lib.baomitu.com/arrive/2.4.1/arrive.min.js',
+        'run-at': 'document-start',
+      },
+    }),
+  ],
+})
+```
+
 ### `externalGlobals`
 
 Configure external packages, such as `vue`, `axios`, etc., to reduce the package size, and automatically declare `require`
@@ -143,7 +175,7 @@ Production build mode will force the configuration of `config.build`:
 
 ### Disable CSP(Content-Security-Policy)
 
-In development mode, the script of `vite` needs to be injected through the `script` tag. Some websites have enabled `CSP(Content-Security-Policy)`, resulting in an error. You can install the `Chrome` plugin [Disable Content-Security-Policy] (https://chrome.google.com/webstore/detail/disable-content-security/ieelmcmcagommplceebfedjlakkhpden) or [Always Disable Content-Security-Policy](https://chrome.google.com/webstore/detail/always- disable-content-se/ffelghdomoehpceihalcnbmnodohkibj), to disable `CSP(Content-Security-Policy)`, **open the plug-in during development (remember to close it at other times to ensure the security of web browsing)**.
+In development mode, the script of `vite` needs to be injected through the `script` tag. Some websites have enabled `CSP(Content-Security-Policy)`, resulting in an error. You can install the `Chrome` plugin [Disable Content-Security-Policy](https://chrome.google.com/webstore/detail/disable-content-security/ieelmcmcagommplceebfedjlakkhpden) or [Always Disable Content-Security-Policy](https://chrome.google.com/webstore/detail/always-disable-content-se/ffelghdomoehpceihalcnbmnodohkibj), to disable `CSP(Content-Security-Policy)`, **open the plug-in during development (remember to close it at other times to ensure the security of web browsing)**.
 
 Also, you can change Tampermonkey options(open `extension://iikmkjmpaadaobahmlepeloendndfphd/options.html#nav=settings`) at `Security`, set `Modify existing content security policy (CSP) headers` to `Remove entirely (possibly unsecure)`.
 
