@@ -85,6 +85,38 @@ export interface TMPluginOptions {
 }
 ```
 
+### `headers`
+
+见 [配置 Userscript Header](#配置-userscript-header)
+
+示例
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+import Userscript from 'vite-plugin-tm-userscript'
+
+export default defineConfig({
+  plugins: [
+    Userscript({
+      entry: 'main.js',
+      headers: {
+        name: 'Test',
+        namespace: 'https://www.nanoka.top',
+        author: 'asadahimeka',
+        description: 'No description',
+        source: 'https://github.com/asadahimeka/userscripts',
+        supportURL: 'https://github.com/asadahimeka/userscripts/issues',
+        license: 'MIT',
+        match: 'https://test.com/*',
+        require: 'https://lib.baomitu.com/arrive/2.4.1/arrive.min.js',
+        'run-at': 'document-start',
+      },
+    }),
+  ],
+})
+```
+
 ### `externalGlobals`
 
 配置外部包，比如 `vue`，`axios` 等，减少打包体积，并且会自动声明 `require` ，如下配置：
@@ -94,7 +126,7 @@ export interface TMPluginOptions {
 ```js
 // 1
 Userscript({
-  externalGlobals: ['jquery']
+  externalGlobals: ['vue']
 })
 
 // 2
