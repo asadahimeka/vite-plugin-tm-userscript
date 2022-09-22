@@ -8,6 +8,8 @@
 English | [中文](https://github.com/asadahimeka/vite-plugin-tm-userscript/blob/master/README-ZH.md)
 
 > Recommended to use [vite-plugin-monkey](https://github.com/lisonge/vite-plugin-monkey)
+>
+> 推荐使用功能更丰富的 [vite-plugin-monkey](https://github.com/lisonge/vite-plugin-monkey)
 
 Tampermonkey userscript developing & build plugin based on `vite`.
 
